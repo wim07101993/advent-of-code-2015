@@ -1,8 +1,11 @@
 # Day 15: Science for Hungry People
 
-Today, you set out on the task of perfecting your milk-dunking cookie recipe. All you have to do is find the right balance of ingredients.
+Today, you set out on the task of perfecting your milk-dunking cookie recipe.
+All you have to do is find the right balance of ingredients.
 
-Your recipe leaves room for exactly `100` teaspoons of ingredients. You make a list of the remaining ingredients you could use to finish the recipe (your puzzle input) and their properties per teaspoon:
+Your recipe leaves room for exactly `100` teaspoons of ingredients. You make a
+list of the remaining ingredients you could use to finish the recipe (your
+puzzle input) and their properties per teaspoon:
 
 * capacity (how well it helps the cookie absorb milk)
 * durability (how well it keeps the cookie intact when full of milk)
@@ -10,7 +13,10 @@ Your recipe leaves room for exactly `100` teaspoons of ingredients. You make a l
 * texture (how it improves the feel of the cookie)
 * calories (how many calories it adds to the cookie)
 
-You can only measure ingredients in whole-teaspoon amounts accurately, and you have to be accurate so you can reproduce your results in the future. The total score of a cookie can be found by adding up each of the properties (negative totals become 0) and then multiplying together everything except calories.
+You can only measure ingredients in whole-teaspoon amounts accurately, and you
+have to be accurate so you can reproduce your results in the future. The total
+score of a cookie can be found by adding up each of the properties (negative
+totals become 0) and then multiplying together everything except calories.
 
 For instance, suppose you have these two ingredients:
 
@@ -27,7 +33,9 @@ For instance, suppose you have these two ingredients:
   * texture `-1`,
   * calories `3`
 
-Then, choosing to use 44 teaspoons of butterscotch and 56 teaspoons of cinnamon (because the amounts of each ingredient must add up to 100) would result in a cookie with the following properties:
+Then, choosing to use 44 teaspoons of butterscotch and 56 teaspoons of cinnamon
+(because the amounts of each ingredient must add up to 100) would result in a
+cookie with the following properties:
 
 * A capacity of `44*-1 + 56*2 = 68`
 * A durability of `44*-2 + 56*3 = 80`
