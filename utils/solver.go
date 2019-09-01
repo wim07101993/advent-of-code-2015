@@ -1,5 +1,6 @@
 package utils
 
 type Solver interface {
-	Solve() string
+	SolvePart1() string
+	SolvePart2() string
 }

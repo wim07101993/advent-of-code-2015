@@ -8,17 +8,18 @@ import (
 )
 
 var (
-	SolverDay011 *day01.SolverPart1
+	SolverDay01 *day01.SolverDay1
 )
 
 func main() {
 	initializeSolvers()
 
-	fmt.Println("Day 01 part 1:", SolverDay011.Solve())
+	fmt.Println("Day 01 part 1:", SolverDay01.SolvePart1())
+	fmt.Println("Day 01 part 2:", SolverDay01.SolvePart2())
 }
 
 func initializeSolvers() {
-	SolverDay011 = day01.NewSolverPart1(func() string {
+	SolverDay01 = day01.New(func() string {
 		if s, err := utils.ReadFileAsString("./day01/input"); err != nil {
 			panic(err)
 		} else {
