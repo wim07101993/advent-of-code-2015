@@ -6,9 +6,10 @@ import (
 )
 
 type SolverDay2 struct {
-	input     []WrappingPaperDimensions
-	solution1 int
-	solution2 int
+	inputProvider func() []string
+	input         []WrappingPaperDimensions
+	solution1     int
+	solution2     int
 }
 
 type WrappingPaperDimensions struct {
@@ -17,21 +18,31 @@ type WrappingPaperDimensions struct {
 	Width  int
 }
 
-func New(inputProvider func() []string) (*SolverDay2, error) {
-	strInput := inputProvider()
+func New(inputProvider func() []string) *SolverDay2 {
+	return &SolverDay2{
+		inputProvider: inputProvider,
+	}
+}
+
+func (s *SolverDay2) fetchInput() error {
+	strInput := s.inputProvider()
 	wpds, err := ParseInput(strInput)
 	if err != nil {
-		return nil, err
+		return err
 	}
-
-	return &SolverDay2{
-		input: wpds,
-	}, nil
+	s.input = wpds
+	return nil
 }
 
 func (s *SolverDay2) SolvePart1() string {
-
-	return ""
+	if s.input == nil {
+		s.fetchInput()
+	}
+	total := 0
+	for _, wpd := range s.input {
+		total += wpd.CalcArea()
+	}
+	return strconv.Itoa(total)
 }
 
 func (s *SolverDay2) SolvePart2() string {
@@ -72,4 +83,24 @@ func ParseWrappingPaperDimensions(input string) (WrappingPaperDimensions, error)
 		Width:  w,
 		Height: h,
 	}, nil
+}
+
+func (w WrappingPaperDimensions) CalcArea() int {
+	area := w.Length * w.Width
+	min := area
+	areas := 2 * area
+
+	area = w.Width * w.Height
+	areas += 2 * area
+	if area < min {
+		min = area
+	}
+
+	area = w.Height * w.Length
+	areas += 2 * area
+	if area < min {
+		min = area
+	}
+
+	return areas + min
 }

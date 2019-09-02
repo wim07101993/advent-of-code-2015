@@ -4,18 +4,23 @@ import (
 	"fmt"
 
 	"github.com/wim07101993/advent-of-code-2015/day01"
+	"github.com/wim07101993/advent-of-code-2015/day02"
 	"github.com/wim07101993/advent-of-code-2015/utils"
 )
 
 var (
 	SolverDay01 *day01.SolverDay1
+	SolverDay02 *day02.SolverDay2
 )
 
 func main() {
 	initializeSolvers()
 
-	fmt.Println("Day 01 part 1:", SolverDay01.SolvePart1())
-	fmt.Println("Day 01 part 2:", SolverDay01.SolvePart2())
+	//fmt.Println("Day 01 part 1:", SolverDay01.SolvePart1())
+	//fmt.Println("Day 01 part 2:", SolverDay01.SolvePart2())
+
+	fmt.Println("Day 02 part 1:", SolverDay02.SolvePart1())
+	fmt.Println("Day 02 part 2:", SolverDay02.SolvePart2())
 }
 
 func initializeSolvers() {
@@ -27,4 +32,11 @@ func initializeSolvers() {
 		}
 	})
 
+	SolverDay02 = day02.New(func() []string {
+		if s, err := utils.ReadFileLines("./day02/input"); err != nil {
+			panic(err)
+		} else {
+			return s
+		}
+	})
 }
