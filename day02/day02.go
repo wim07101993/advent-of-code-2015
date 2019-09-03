@@ -3,16 +3,18 @@ package day02
 import (
 	"strconv"
 	"strings"
+
+	"github.com/wim07101993/advent-of-code-2015/utils"
 )
 
 type SolverDay2 struct {
 	inputProvider func() []string
-	input         []WrappingPaperDimensions
+	input         []Present
 	solution1     int
 	solution2     int
 }
 
-type WrappingPaperDimensions struct {
+type Present struct {
 	Length int
 	Height int
 	Width  int
@@ -26,11 +28,11 @@ func New(inputProvider func() []string) *SolverDay2 {
 
 func (s *SolverDay2) fetchInput() error {
 	strInput := s.inputProvider()
-	wpds, err := ParseInput(strInput)
+	ps, err := ParseInput(strInput)
 	if err != nil {
 		return err
 	}
-	s.input = wpds
+	s.input = ps
 	return nil
 }
 
@@ -39,29 +41,37 @@ func (s *SolverDay2) SolvePart1() string {
 		s.fetchInput()
 	}
 	total := 0
-	for _, wpd := range s.input {
-		total += wpd.CalcArea()
+	for _, p := range s.input {
+		total += p.CalcWrappingPaperArea()
 	}
 	return strconv.Itoa(total)
 }
 
 func (s *SolverDay2) SolvePart2() string {
-	return ""
+	if s.input == nil {
+		s.fetchInput()
+	}
+
+	total := 0
+	for _, p := range s.input {
+		total += p.CalcRibbonLength()
+	}
+	return strconv.Itoa(total)
 }
 
-func ParseInput(input []string) ([]WrappingPaperDimensions, error) {
-	ret := []WrappingPaperDimensions{}
+func ParseInput(input []string) ([]Present, error) {
+	ret := []Present{}
 	for _, s := range input {
-		wpd, err := ParseWrappingPaperDimensions(s)
+		p, err := ParsePresent(s)
 		if err != nil {
 			return nil, err
 		}
-		ret = append(ret, wpd)
+		ret = append(ret, p)
 	}
 	return ret, nil
 }
 
-func ParseWrappingPaperDimensions(input string) (WrappingPaperDimensions, error) {
+func ParsePresent(input string) (Present, error) {
 	l := 0
 	w := 0
 	h := 0
@@ -69,38 +79,42 @@ func ParseWrappingPaperDimensions(input string) (WrappingPaperDimensions, error)
 
 	split := strings.Split(input, "x")
 	if l, err = strconv.Atoi(split[0]); err != nil {
-		return WrappingPaperDimensions{}, err
+		return Present{}, err
 	}
 	if w, err = strconv.Atoi(split[1]); err != nil {
-		return WrappingPaperDimensions{}, err
+		return Present{}, err
 	}
 	if h, err = strconv.Atoi(split[2]); err != nil {
-		return WrappingPaperDimensions{}, err
+		return Present{}, err
 	}
 
-	return WrappingPaperDimensions{
+	return Present{
 		Length: l,
 		Width:  w,
 		Height: h,
 	}, nil
 }
 
-func (w WrappingPaperDimensions) CalcArea() int {
-	area := w.Length * w.Width
-	min := area
-	areas := 2 * area
-
-	area = w.Width * w.Height
-	areas += 2 * area
-	if area < min {
-		min = area
+func (p Present) CalcWrappingPaperArea() int {
+	areas := []int{
+		p.Length * p.Width,
+		p.Width * p.Height,
+		p.Height * p.Length,
 	}
 
-	area = w.Height * w.Length
-	areas += 2 * area
-	if area < min {
-		min = area
+	min := utils.Min(areas...)
+	return utils.Sum(areas...)*2 + min
+}
+
+func (p Present) CalcRibbonLength() int {
+	max := utils.Max(p.Width, p.Length, p.Height)
+
+	if max == p.Width {
+		return 2*p.Length + 2*p.Height + p.Length*p.Width*p.Height
+	}
+	if max == p.Length {
+		return 2*p.Width + 2*p.Height + p.Length*p.Width*p.Height
 	}
 
-	return areas + min
+	return 2*p.Width + 2*p.Length + p.Length*p.Width*p.Height
 }
