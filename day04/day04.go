@@ -4,23 +4,17 @@ import (
 	"crypto/md5"
 	"fmt"
 	"strconv"
-	"sync"
 )
 
 type SolverDay4 struct {
-	input              []byte
-	solution1          int
-	solution2          int
-	numberOfGoRoutines int
+	input     []byte
+	solution1 int
+	solution2 int
 }
 
-func New(inputProvider func() []byte, numberOfGoRoutines int) *SolverDay4 {
-	if numberOfGoRoutines == 0 {
-		panic("Day 4 will not solve without go routines")
-	}
+func New(inputProvider func() []byte) *SolverDay4 {
 	return &SolverDay4{
-		input:              inputProvider(),
-		numberOfGoRoutines: numberOfGoRoutines,
+		input: inputProvider(),
 	}
 }
 
@@ -33,46 +27,50 @@ func (s *SolverDay4) SolvePart2() string {
 }
 
 func (s *SolverDay4) findHash() int {
-	c := make(chan int)
-	solution := make(chan int)
-	stop := make(chan int)
-	var wg sync.WaitGroup
+	feedStop := make(chan int)
+	num := make(chan int)
+	sol := make(chan int, 10)
 
-	wg.Add(1)
-	go feedNumbers(c, stop)
+	go feedNumbers(num, feedStop)
 
-	for i := 0; i < s.numberOfGoRoutines; i++ {
-		go s.checkNumbers(c, solution, &wg)
+	go s.checkNumbers(num, sol, func(n int) {
+		if n%1000000 == 0 && n != 0 {
+			fmt.Print(n / 100000)
+		} else if n%100000 == 0 && n != 0 {
+			fmt.Print(".")
+		}
+	})
+
+	x := -1
+	for x < 0 {
+		x = <-sol
 	}
 
-	wg.Wait()
-	stop <- 1
-	x := <-solution
+	feedStop <- 1
+
 	return x
 }
 
-func (s *SolverDay4) checkNumbers(c <-chan int, solution chan int, wg *sync.WaitGroup) {
+func (s *SolverDay4) checkNumbers(num <-chan int, solution chan<- int, callback func(int)) {
 	var x int
 	for {
 		select {
-		case x = <-c:
-
-			sx := strconv.Itoa(x)
-			input := append(s.input, sx...)
-			h := hash(input)
-			if checkHash(h) {
-				wg.Done()
-				solution <- x
-				return
-			}
-
-			if x%10000000 == 0 {
-				fmt.Print(x / 1000000)
-			} else if x%1000000 == 0 {
-				fmt.Print(".")
-			}
+		case x = <-num:
+			go s.checkNumber(x, solution, callback)
 		}
 	}
+}
+
+func (s *SolverDay4) checkNumber(num int, solution chan<- int, callback func(int)) {
+	sx := strconv.Itoa(num)
+	input := append(s.input, sx...)
+	h := hash(input)
+	if checkHash(h) {
+		solution <- num
+		return
+	}
+	solution <- -1
+	callback(num)
 }
 
 func feedNumbers(c chan<- int, stop <-chan int) {
@@ -82,7 +80,6 @@ func feedNumbers(c chan<- int, stop <-chan int) {
 		case c <- x:
 			x++
 		case <-stop:
-			close(c)
 			return
 		}
 	}

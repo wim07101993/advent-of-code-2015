@@ -25,13 +25,24 @@ func TestCheckHash(t *testing.T) {
 	}
 }
 
-func TestFindHash(t *testing.T) {
+func TestFindHash1(t *testing.T) {
 	s := New(func() []byte {
 		return []byte("abcdef")
-	}, 4)
+	})
 
 	i := s.findHash()
 	if i != 609043 {
 		t.Errorf("The integer to append should be 609043, not %d", i)
+	}
+}
+
+func TestFindHash2(t *testing.T) {
+	s := New(func() []byte {
+		return []byte("pqrstuv")
+	})
+
+	i := s.findHash()
+	if i != 1048970 {
+		t.Errorf("The integer to append should be 1048970, not %d", i)
 	}
 }

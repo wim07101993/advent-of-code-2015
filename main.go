@@ -64,5 +64,5 @@ func initializeSolvers() {
 		} else {
 			return bs
 		}
-	}, 4)
+	})
 }
