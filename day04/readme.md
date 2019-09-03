@@ -11,7 +11,7 @@ that produces such a hash.
 
 ## For example
 
-* If your secret key is abcdef, the answer is `609043`, because the MD5 hash of
+* If your secret key is `abcdef`, the answer is `609043`, because the MD5 hash of
   `abcdef609043` starts with five zeroes (`000001dbbfa...`), and it is the lowest
   such number to do so.
 * If your secret key is `pqrstuv`, the lowest number it combines with to make an
