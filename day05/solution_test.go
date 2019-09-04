@@ -1,4 +1,4 @@
-package day04
+package day05
 
 import (
 	"testing"
@@ -16,7 +16,7 @@ func TestPart1(t *testing.T) {
 	})
 
 	a := s.SolvePart1()
-	if a != "" {
+	if a != "255" {
 		t.Errorf("Wrong answer, try again (%s)", a)
 	}
 }

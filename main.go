@@ -7,6 +7,7 @@ import (
 	"github.com/wim07101993/advent-of-code-2015/day02"
 	"github.com/wim07101993/advent-of-code-2015/day03"
 	"github.com/wim07101993/advent-of-code-2015/day04"
+	"github.com/wim07101993/advent-of-code-2015/day05"
 	"github.com/wim07101993/advent-of-code-2015/utils"
 )
 
@@ -15,6 +16,7 @@ var (
 	SolverDay02 *day02.SolverDay2
 	SolverDay03 *day03.SolverDay3
 	SolverDay04 *day04.SolverDay4
+	SolverDay05 *day05.SolverDay5
 )
 
 func main() {
@@ -29,8 +31,11 @@ func main() {
 	//fmt.Println("Day 03 part 1:", SolverDay03.SolvePart1())
 	//fmt.Println("Day 03 part 2:", SolverDay03.SolvePart2())
 
-	fmt.Println("Day 04 part 1:", SolverDay04.SolvePart1())
-	fmt.Println("Day 04 part 2:", SolverDay04.SolvePart2())
+	// fmt.Println("Day 04 part 1:", SolverDay04.SolvePart1())
+	// fmt.Println("Day 04 part 2:", SolverDay04.SolvePart2())
+
+	fmt.Println("Day 05 part 1:", SolverDay05.SolvePart1())
+	fmt.Println("Day 05 part 2:", SolverDay05.SolvePart2())
 }
 
 func initializeSolvers() {
@@ -60,6 +65,14 @@ func initializeSolvers() {
 
 	SolverDay04 = day04.New(func() []byte {
 		if bs, err := utils.ReadFileAsBytes("./day04/input"); err != nil {
+			panic(err)
+		} else {
+			return bs
+		}
+	})
+
+	SolverDay05 = day05.New(func() []string {
+		if bs, err := utils.ReadFileLines("./day05/input"); err != nil {
 			panic(err)
 		} else {
 			return bs
