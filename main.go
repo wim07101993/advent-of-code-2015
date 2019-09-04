@@ -100,22 +100,22 @@ func init() {
 				return bs
 			}
 		}),
-		day10.New(func() []string {
-			if bs, err := utils.ReadFileLines("./day10/input"); err != nil {
+		day10.New(func() string {
+			if bs, err := utils.ReadFileAsString("./day10/input"); err != nil {
 				panic(err)
 			} else {
 				return bs
 			}
 		}),
-		day11.New(func() []string {
-			if bs, err := utils.ReadFileLines("./day11/input"); err != nil {
+		day11.New(func() string {
+			if bs, err := utils.ReadFileAsString("./day11/input"); err != nil {
 				panic(err)
 			} else {
 				return bs
 			}
 		}),
-		day12.New(func() []string {
-			if bs, err := utils.ReadFileLines("./day12/input"); err != nil {
+		day12.New(func() string {
+			if bs, err := utils.ReadFileAsString("./day12/input"); err != nil {
 				panic(err)
 			} else {
 				return bs
@@ -170,8 +170,8 @@ func init() {
 				return bs
 			}
 		}),
-		day20.New(func() []string {
-			if bs, err := utils.ReadFileLines("./day20/input"); err != nil {
+		day20.New(func() string {
+			if bs, err := utils.ReadFileAsString("./day20/input"); err != nil {
 				panic(err)
 			} else {
 				return bs
