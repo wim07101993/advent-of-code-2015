@@ -34,25 +34,83 @@ func TestContainsNVowels(t *testing.T) {
 	}
 }
 
-func TestIsGood(t *testing.T) {
-	if !isGood("ugknbfddgicrmopn") {
+func TestContainsPairOfLastTwoLetters(t *testing.T) {
+	if !containsPairOfLastTwoLetters("xyxy") {
+		t.Error("xyxy does contain it's last two letters somewhere else")
+	}
+
+	if !containsPairOfLastTwoLetters("qjhvhtzxzqqjkmpb") {
+		t.Error("qjhvhtzxzqqjkmpb does contain it's last two letters somewhere else")
+	}
+
+	if !containsPairOfLastTwoLetters("aabcdefgaa") {
+		t.Error("aabcdefgaa does contain it's last two letters somewhere else")
+	}
+
+	if containsPairOfLastTwoLetters("aa") {
+		t.Error("aa overlaps")
+	}
+
+	if containsPairOfLastTwoLetters("aaa") {
+		t.Error("aaa overlaps")
+	}
+}
+
+func TestContainsPairWithLetterInBetween(t *testing.T) {
+	if !containsPairWithLetterInBetween("xyx") {
+		t.Error("xyx does repeat the letter x")
+	}
+
+	if !containsPairWithLetterInBetween("abcdefeghi") {
+		t.Error("abcdefeghi repeats the letter e")
+	}
+
+	if !containsPairWithLetterInBetween("aaa") {
+		t.Error("aaa repeats the letter a")
+	}
+
+	if containsPairWithLetterInBetween("uurcxstgmygtbstg") {
+		t.Error("uurcxstgmygtbstg does not repeat any letter")
+	}
+}
+
+func TestIsGood1(t *testing.T) {
+	if !isGood1("ugknbfddgicrmopn") {
 		t.Error("ugknbfddgicrmopn is good")
 	}
 
-	if !isGood("aaa") {
+	if !isGood1("aaa") {
 		t.Error("aaa is good")
 	}
 
-	if isGood("jchzalrnumimnmhp") {
+	if isGood1("jchzalrnumimnmhp") {
 		t.Error("jchzalrnumimnmhp is naughty")
 	}
 
-	if isGood("haegwjzuvuyypxyu") {
+	if isGood1("haegwjzuvuyypxyu") {
 		t.Error("haegwjzuvuyypxyu is naughty")
 	}
 
-	if isGood("dvszwmarrgswjxmb") {
+	if isGood1("dvszwmarrgswjxmb") {
 		t.Error("dvszwmarrgswjxmb is naughty")
+	}
+}
+
+func TestIsGood2(t *testing.T) {
+	if !isGood2("qjhvhtzxzqqjkmpb") {
+		t.Error("qjhvhtzxzqqjkmpb is good")
+	}
+
+	if !isGood2("xxyxx") {
+		t.Error("xxyxx is good")
+	}
+
+	if isGood2("uurcxstgmygtbstg") {
+		t.Error("uurcxstgmygtbstg is naughty")
+	}
+
+	if isGood2("ieodomkazucvgmuy") {
+		t.Error("ieodomkazucvgmuy is naughty")
 	}
 }
 
@@ -65,7 +123,7 @@ func TestRemoveNaughty(t *testing.T) {
 		"dvszwmarrgswjxmb",
 	}
 
-	ss = removeNaughty(ss)
+	ss = removeNaughty(ss, isGood1)
 
 	for _, s := range ss {
 		switch s {

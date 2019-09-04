@@ -23,7 +23,7 @@ func (s *SolverDay5) SolvePart1() string {
 		s.input = s.inputProvider()
 	}
 
-	good := removeNaughty(s.input)
+	good := removeNaughty(s.input, isGood1)
 	return strconv.Itoa(len(good))
 }
 
@@ -32,23 +32,28 @@ func (s *SolverDay5) SolvePart2() string {
 		s.input = s.inputProvider()
 	}
 
-	return ""
+	good := removeNaughty(s.input, isGood2)
+	return strconv.Itoa(len(good))
 }
 
-func removeNaughty(ss []string) []string {
+func removeNaughty(ss []string, filter func(string) bool) []string {
 	ret := []string{}
 	for _, s := range ss {
-		if isGood(s) {
+		if filter(s) {
 			ret = append(ret, s)
 		}
 	}
 	return ret
 }
 
-func isGood(s string) bool {
+func isGood1(s string) bool {
 	not := []string{"ab", "cd", "pq", "xy"}
 
 	return containsNVowels(s, 3) && containsXThatAppearsNTimesInARow(s, 2) && doesntContain(s, not)
+}
+
+func isGood2(s string) bool {
+	return containsPairOfLastTwoLetters(s) && containsPairWithLetterInBetween(s)
 }
 
 func containsNVowels(s string, n int) bool {
@@ -89,4 +94,24 @@ func doesntContain(s string, ss []string) bool {
 		}
 	}
 	return true
+}
+
+func containsPairOfLastTwoLetters(s string) bool {
+	for i := 0; i < len(s)-2; i++ {
+		pair := s[i : i+2]
+		c := s[i+2:]
+		if strings.Contains(c, pair){
+			return true
+		}
+	}
+	return false
+}
+
+func containsPairWithLetterInBetween(s string) bool {
+	for i := 0; i < len(s)-2; i++ {
+		if s[i] == s[i+2] {
+			return true
+		}
+	}
+	return false
 }

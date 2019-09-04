@@ -31,7 +31,7 @@ func TestPart2(t *testing.T) {
 	})
 
 	a := s.SolvePart2()
-	if a != "" {
+	if a != "55" {
 		t.Errorf("Wrong answer, try again (%s)", a)
 	}
 }
