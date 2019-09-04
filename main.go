@@ -59,7 +59,7 @@ func initializeSolvers() {
 	})
 
 	SolverDay04 = day04.New(func() []byte {
-		if bs, err := utils.ReadFileAsBytes("./day03/input"); err != nil {
+		if bs, err := utils.ReadFileAsBytes("./day04/input"); err != nil {
 			panic(err)
 		} else {
 			return bs

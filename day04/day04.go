@@ -86,7 +86,11 @@ func feedNumbers(c chan<- int, stop <-chan int) {
 }
 
 func checkHash(h []byte) bool {
-	return h[0] == 0 && h[1] == 0 && h[2] < 16
+	ok := h[0] == 0 && h[1] == 0 && h[2] < 16
+	if ok {
+		fmt.Printf("%x\r\n", h)
+	}
+	return ok
 }
 
 func hash(input []byte) []byte {
