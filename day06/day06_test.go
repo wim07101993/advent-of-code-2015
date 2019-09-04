@@ -2,26 +2,26 @@ package day06
 
 import "testing"
 
-func TestSet(t *testing.T) {
+func TestTurnOnOff(t *testing.T) {
 	g := Grid{}
-	g.Set(Coordinate{0, 0}, Coordinate{999, 999}, true)
+	g.TurnOn(Coordinate{0, 0}, Coordinate{999, 999})
 	for x, col := range g {
 		for y := range col {
-			if !g[x][y] {
+			if g[x][y] == 0 {
 				t.Errorf("All lights should have been lit (%d,%d)", x, y)
 			}
 		}
 	}
 
-	g.Set(Coordinate{0, 0}, Coordinate{999, 999}, true)
-	g.Set(Coordinate{499, 499}, Coordinate{500, 500}, false)
+	g.TurnOn(Coordinate{0, 0}, Coordinate{999, 999})
+	g.TurnOff(Coordinate{499, 499}, Coordinate{500, 500})
 	for x, col := range g {
 		for y := range col {
 			if x >= 499 && y >= 499 && x <= 500 && y <= 500 {
-				if g[x][y] {
+				if g[x][y] > 0 {
 					t.Errorf("The four middle lights should not be on (%d,%d)", x, y)
 				}
-			} else if !g[x][y] {
+			} else if g[x][y] == 0 {
 				t.Errorf("Only the four middle lights should not be on (%d,%d)", x, y)
 			}
 		}
@@ -32,14 +32,14 @@ func TestToggle(t *testing.T) {
 	g := Grid{}
 	g.Toggle(Coordinate{0, 0}, Coordinate{999, 0})
 	for x, col := range g {
-		if !col[0] {
+		if col[0] == 0 {
 			t.Errorf("The entire first row should not be lit (%d,%d)", x, 0)
 		}
 	}
 
 	for x, col := range g {
 		for y := 1; y < len(col); y++ {
-			if col[y] {
+			if col[y] > 0 {
 				t.Errorf("Only the first row should not be lit (%d,%d)", x, y)
 			}
 		}
@@ -48,7 +48,7 @@ func TestToggle(t *testing.T) {
 
 func TestGetOn(t *testing.T) {
 	g := Grid{}
-	g.Set(Coordinate{0, 0}, Coordinate{999, 999}, true)
+	g.TurnOn(Coordinate{0, 0}, Coordinate{999, 999})
 	on := g.GetOn()
 	if on != 1000000 {
 		t.Errorf("The number of lit lights should be 1000 000 (%d)", on)
@@ -60,13 +60,13 @@ func TestGetOn(t *testing.T) {
 		t.Errorf("The number of lit lights should be 999 000 (%d)", on)
 	}
 
-	g.Set(Coordinate{0, 0}, Coordinate{999, 999}, true)
+	g.TurnOn(Coordinate{0, 0}, Coordinate{999, 999})
 	on = g.GetOn()
 	if on != 1000000 {
 		t.Errorf("The number of lit lights should be 1000 000 (%d)", on)
 	}
 
-	g.Set(Coordinate{499, 499}, Coordinate{500, 500}, false)
+	g.TurnOff(Coordinate{499, 499}, Coordinate{500, 500})
 	on = g.GetOn()
 	if on != 999996 {
 		t.Errorf("The number of lit lights should be 999 996 (%d)", on)

@@ -13,7 +13,7 @@ type SolverDay6 struct {
 	solution2     int
 }
 
-type Grid [1000][1000]bool
+type Grid [1000][1000]int
 
 type Coordinate struct {
 	X int
@@ -67,18 +67,45 @@ func (s *SolverDay6) SolvePart2() string {
 func (g *Grid) Execute(i Instruction) {
 	switch i.Do {
 	case Off:
-		g.Set(i.From, i.To, false)
+		g.TurnOff(i.From, i.To)
 	case On:
-		g.Set(i.From, i.To, true)
+		g.TurnOn(i.From, i.To)
 	case Toggle:
 		g.Toggle(i.From, i.To)
 	}
 }
 
-func (g *Grid) Set(from, to Coordinate, value bool) {
+func (g *Grid) Execute2(i Instruction) {
+	switch i.Do {
+	case Off:
+		g.TurnOff2(i.From, i.To)
+	case On:
+		g.TurnOn(i.From, i.To)
+	case Toggle:
+		g.Toggle2(i.From, i.To)
+	}
+}
+
+func (g *Grid) TurnOn(from, to Coordinate) {
 	for x := from.X; x <= to.X; x++ {
 		for y := from.Y; y <= to.Y; y++ {
-			g[x][y] = value
+			g[x][y]++
+		}
+	}
+}
+
+func (g *Grid) TurnOff(from, to Coordinate) {
+	for x := from.X; x <= to.X; x++ {
+		for y := from.Y; y <= to.Y; y++ {
+			g[x][y] = 0
+		}
+	}
+}
+
+func (g *Grid) TurnOff2(from, to Coordinate) {
+	for x := from.X; x <= to.X; x++ {
+		for y := from.Y; y <= to.Y; y++ {
+			g[x][y]--
 		}
 	}
 }
@@ -86,7 +113,19 @@ func (g *Grid) Set(from, to Coordinate, value bool) {
 func (g *Grid) Toggle(from, to Coordinate) {
 	for x := from.X; x <= to.X; x++ {
 		for y := from.Y; y <= to.Y; y++ {
-			g[x][y] = !g[x][y]
+			if g[x][y] > 0 {
+				g[x][y] = 0
+			} else {
+				g[x][y]++
+			}
+		}
+	}
+}
+
+func (g *Grid) Toggle2(from, to Coordinate) {
+	for x := from.X; x <= to.X; x++ {
+		for y := from.Y; y <= to.Y; y++ {
+			g[x][y] += 2
 		}
 	}
 }
@@ -95,7 +134,7 @@ func (g *Grid) GetOn() int {
 	i := 0
 	for _, col := range g {
 		for _, cor := range col {
-			if cor {
+			if cor > 0 {
 				i++
 			}
 		}
