@@ -31,7 +31,7 @@ func TestPart2(t *testing.T) {
 	})
 
 	a := s.SolvePart2()
-	if a != "TODO" {
+	if a != "9958218" {
 		t.Errorf("Wrong answer, try again (%s)", a)
 	}
 }
