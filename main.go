@@ -12,70 +12,59 @@ import (
 )
 
 var (
-	SolverDay01 *day01.SolverDay1
-	SolverDay02 *day02.SolverDay2
-	SolverDay03 *day03.SolverDay3
-	SolverDay04 *day04.SolverDay4
-	SolverDay05 *day05.SolverDay5
+	Solvers []utils.Solver
 )
 
-func main() {
-	initializeSolvers()
-
-	//fmt.Println("Day 01 part 1:", SolverDay01.SolvePart1())
-	//fmt.Println("Day 01 part 2:", SolverDay01.SolvePart2())
-
-	// fmt.Println("Day 02 part 1:", SolverDay02.SolvePart1())
-	// fmt.Println("Day 02 part 2:", SolverDay02.SolvePart2())
-
-	//fmt.Println("Day 03 part 1:", SolverDay03.SolvePart1())
-	//fmt.Println("Day 03 part 2:", SolverDay03.SolvePart2())
-
-	// fmt.Println("Day 04 part 1:", SolverDay04.SolvePart1())
-	// fmt.Println("Day 04 part 2:", SolverDay04.SolvePart2())
-
-	fmt.Println("Day 05 part 1:", SolverDay05.SolvePart1())
-	fmt.Println("Day 05 part 2:", SolverDay05.SolvePart2())
+func init() {
+	Solvers = []utils.Solver{
+		day01.New(func() string {
+			if s, err := utils.ReadFileAsString("./day01/input"); err != nil {
+				panic(err)
+			} else {
+				return s
+			}
+		}),
+		day02.New(func() []string {
+			if s, err := utils.ReadFileLines("./day02/input"); err != nil {
+				panic(err)
+			} else {
+				return s
+			}
+		}),
+		day03.New(func() string {
+			if s, err := utils.ReadFileAsString("./day03/input"); err != nil {
+				panic(err)
+			} else {
+				return s
+			}
+		}),
+		day04.New(func() []byte {
+			if bs, err := utils.ReadFileAsBytes("./day04/input"); err != nil {
+				panic(err)
+			} else {
+				return bs
+			}
+		}),
+		day05.New(func() []string {
+			if bs, err := utils.ReadFileLines("./day05/input"); err != nil {
+				panic(err)
+			} else {
+				return bs
+			}
+		}),
+	}
 }
 
-func initializeSolvers() {
-	SolverDay01 = day01.New(func() string {
-		if s, err := utils.ReadFileAsString("./day01/input"); err != nil {
-			panic(err)
-		} else {
-			return s
-		}
-	})
+func main() {
+	// solve all
+	// for i, s := range Solvers {
+	// 	solve(s, i+1)
+	// }
 
-	SolverDay02 = day02.New(func() []string {
-		if s, err := utils.ReadFileLines("./day02/input"); err != nil {
-			panic(err)
-		} else {
-			return s
-		}
-	})
+	solve(Solvers[4], 5)
+}
 
-	SolverDay03 = day03.New(func() string {
-		if s, err := utils.ReadFileAsString("./day03/input"); err != nil {
-			panic(err)
-		} else {
-			return s
-		}
-	})
-
-	SolverDay04 = day04.New(func() []byte {
-		if bs, err := utils.ReadFileAsBytes("./day04/input"); err != nil {
-			panic(err)
-		} else {
-			return bs
-		}
-	})
-
-	SolverDay05 = day05.New(func() []string {
-		if bs, err := utils.ReadFileLines("./day05/input"); err != nil {
-			panic(err)
-		} else {
-			return bs
-		}
-	})
+func solve(s utils.Solver, day int) {
+	fmt.Println("Day", day, "part 1:", s.SolvePart1())
+	fmt.Println("Day", day, "part 2:", s.SolvePart2())
 }
