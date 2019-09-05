@@ -2,18 +2,21 @@ package day06
 
 import (
 	"errors"
+	"fmt"
+	"image"
+	"image/color"
 	"regexp"
 	"strconv"
 )
 
 type SolverDay6 struct {
 	inputProvider func() []string
-	input         []string
+	instructions  []Instruction
 	solution1     int
 	solution2     int
 }
 
-type Grid [][]uint
+type Grid [][]int
 
 type Coordinate struct {
 	X int
@@ -51,35 +54,39 @@ func NewGrid(cols int, rows int) Grid {
 }
 
 func (s *SolverDay6) SolvePart1() string {
-	if s.input == nil {
-		s.input = s.inputProvider()
-	}
-
+	s.EnsureInstructions()
 	g := NewGrid(1000, 1000)
-	for _, in := range s.input {
-		i, err := ParseInstruction(in)
-		if err != nil {
-			panic(err)
-		}
+	for _, i := range s.instructions {
 		g.Execute(i)
 	}
 	return strconv.Itoa(g.GetOn())
 }
 
 func (s *SolverDay6) SolvePart2() string {
-	if s.input == nil {
-		s.input = s.inputProvider()
-	}
-
+	s.EnsureInstructions()
 	g := NewGrid(1000, 1000)
-	for _, in := range s.input {
-		i, err := ParseInstruction(in)
-		if err != nil {
-			panic(err)
-		}
+	// n := 0
+
+	for _, i := range s.instructions {
 		g.Execute2(i)
+		// f, _ := os.Create("C:/Users/WVA1809/go/src/github.com/wim07101993/advent-of-code-2015/images/" + strconv.Itoa(n) + fmt.Sprint(i) + ".png")
+		// png.Encode(f, g.ToImage())
+		// n++
 	}
 	return strconv.Itoa(g.GetOn())
+}
+
+func (s *SolverDay6) EnsureInstructions() {
+	if s.instructions == nil {
+		input := s.inputProvider()
+		for _, in := range input {
+			i, err := ParseInstruction(in)
+			if err != nil {
+				panic(err)
+			}
+			s.instructions = append(s.instructions, i)
+		}
+	}
 }
 
 func (g Grid) Execute(i Instruction) {
@@ -124,6 +131,9 @@ func (g Grid) TurnOff2(from, to Coordinate) {
 	for x := from.X; x <= to.X; x++ {
 		for y := from.Y; y <= to.Y; y++ {
 			g[x][y]--
+			if g[x][y] < 0 {
+				g[x][y] = 0
+			}
 		}
 	}
 }
@@ -160,14 +170,40 @@ func (g Grid) GetOn() int {
 	return i
 }
 
-func (g Grid) GetTotalBrightness() uint {
-	var b uint = 0
+func (g Grid) GetTotalBrightness() int {
+	var b int = 0
 	for _, col := range g {
 		for _, cor := range col {
 			b += cor
 		}
 	}
 	return b
+}
+
+func (g Grid) Print() {
+	for _, c := range g {
+		fmt.Printf("%v\r\n", c)
+	}
+}
+
+func (g Grid) ToImage() image.Image {
+	upleft := image.Point{0, 0}
+	lowRight := image.Point{len(g), len(g[0])}
+	img := image.NewRGBA(image.Rectangle{upleft, lowRight})
+
+	for x := range g {
+		for y, i := range g[x] {
+			v := i * 4
+			img.Set(x, y, color.RGBA{
+				uint8(v),
+				uint8(v),
+				uint8(v),
+				0xff,
+			})
+		}
+	}
+
+	return img
 }
 
 func ParseInstruction(s string) (Instruction, error) {
