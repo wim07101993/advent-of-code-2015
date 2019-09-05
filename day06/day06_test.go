@@ -2,8 +2,24 @@ package day06
 
 import "testing"
 
+func TestNewGrid(t *testing.T) {
+	g := NewGrid(5, 5)
+
+	cols := len(g)
+	if cols != 5 {
+		t.Errorf("The number of collumns should be 5, not %d", cols)
+	}
+
+	for _, c := range g {
+		rows := len(c)
+		if rows != 5 {
+			t.Errorf("The number of rows should be 5, not %d", rows)
+		}
+	}
+}
+
 func TestTurnOnOff(t *testing.T) {
-	g := Grid{}
+	g := NewGrid(1000, 1000)
 	g.TurnOn(Coordinate{0, 0}, Coordinate{999, 999})
 	for x, col := range g {
 		for y := range col {
@@ -29,7 +45,7 @@ func TestTurnOnOff(t *testing.T) {
 }
 
 func TestToggle(t *testing.T) {
-	g := Grid{}
+	g := NewGrid(1000, 1000)
 	g.Toggle(Coordinate{0, 0}, Coordinate{999, 0})
 	for x, col := range g {
 		if col[0] == 0 {
@@ -47,7 +63,7 @@ func TestToggle(t *testing.T) {
 }
 
 func TestGetOn(t *testing.T) {
-	g := Grid{}
+	g := NewGrid(1000, 1000)
 	g.TurnOn(Coordinate{0, 0}, Coordinate{999, 999})
 	on := g.GetOn()
 	if on != 1000000 {

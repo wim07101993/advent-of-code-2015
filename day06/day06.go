@@ -13,7 +13,7 @@ type SolverDay6 struct {
 	solution2     int
 }
 
-type Grid [1000][1000]int
+type Grid [][]uint
 
 type Coordinate struct {
 	X int
@@ -40,12 +40,22 @@ func New(inputProvider func() []string) *SolverDay6 {
 	}
 }
 
+func NewGrid(cols int, rows int) Grid {
+	g := make(Grid, cols, cols)
+	for x := range g {
+		for i := 0; i < rows; i++ {
+			g[x] = append(g[x], 0)
+		}
+	}
+	return g
+}
+
 func (s *SolverDay6) SolvePart1() string {
 	if s.input == nil {
 		s.input = s.inputProvider()
 	}
 
-	g := Grid{}
+	g := NewGrid(1000, 1000)
 	for _, in := range s.input {
 		i, err := ParseInstruction(in)
 		if err != nil {
@@ -61,10 +71,18 @@ func (s *SolverDay6) SolvePart2() string {
 		s.input = s.inputProvider()
 	}
 
-	return ""
+	g := NewGrid(1000, 1000)
+	for _, in := range s.input {
+		i, err := ParseInstruction(in)
+		if err != nil {
+			panic(err)
+		}
+		g.Execute2(i)
+	}
+	return strconv.Itoa(g.GetOn())
 }
 
-func (g *Grid) Execute(i Instruction) {
+func (g Grid) Execute(i Instruction) {
 	switch i.Do {
 	case Off:
 		g.TurnOff(i.From, i.To)
@@ -75,7 +93,7 @@ func (g *Grid) Execute(i Instruction) {
 	}
 }
 
-func (g *Grid) Execute2(i Instruction) {
+func (g Grid) Execute2(i Instruction) {
 	switch i.Do {
 	case Off:
 		g.TurnOff2(i.From, i.To)
@@ -86,7 +104,7 @@ func (g *Grid) Execute2(i Instruction) {
 	}
 }
 
-func (g *Grid) TurnOn(from, to Coordinate) {
+func (g Grid) TurnOn(from, to Coordinate) {
 	for x := from.X; x <= to.X; x++ {
 		for y := from.Y; y <= to.Y; y++ {
 			g[x][y]++
@@ -94,7 +112,7 @@ func (g *Grid) TurnOn(from, to Coordinate) {
 	}
 }
 
-func (g *Grid) TurnOff(from, to Coordinate) {
+func (g Grid) TurnOff(from, to Coordinate) {
 	for x := from.X; x <= to.X; x++ {
 		for y := from.Y; y <= to.Y; y++ {
 			g[x][y] = 0
@@ -102,7 +120,7 @@ func (g *Grid) TurnOff(from, to Coordinate) {
 	}
 }
 
-func (g *Grid) TurnOff2(from, to Coordinate) {
+func (g Grid) TurnOff2(from, to Coordinate) {
 	for x := from.X; x <= to.X; x++ {
 		for y := from.Y; y <= to.Y; y++ {
 			g[x][y]--
@@ -110,7 +128,7 @@ func (g *Grid) TurnOff2(from, to Coordinate) {
 	}
 }
 
-func (g *Grid) Toggle(from, to Coordinate) {
+func (g Grid) Toggle(from, to Coordinate) {
 	for x := from.X; x <= to.X; x++ {
 		for y := from.Y; y <= to.Y; y++ {
 			if g[x][y] > 0 {
@@ -122,7 +140,7 @@ func (g *Grid) Toggle(from, to Coordinate) {
 	}
 }
 
-func (g *Grid) Toggle2(from, to Coordinate) {
+func (g Grid) Toggle2(from, to Coordinate) {
 	for x := from.X; x <= to.X; x++ {
 		for y := from.Y; y <= to.Y; y++ {
 			g[x][y] += 2
@@ -130,7 +148,7 @@ func (g *Grid) Toggle2(from, to Coordinate) {
 	}
 }
 
-func (g *Grid) GetOn() int {
+func (g Grid) GetOn() int {
 	i := 0
 	for _, col := range g {
 		for _, cor := range col {
@@ -140,6 +158,16 @@ func (g *Grid) GetOn() int {
 		}
 	}
 	return i
+}
+
+func (g Grid) GetTotalBrightness() uint {
+	var b uint = 0
+	for _, col := range g {
+		for _, cor := range col {
+			b += cor
+		}
+	}
+	return b
 }
 
 func ParseInstruction(s string) (Instruction, error) {
