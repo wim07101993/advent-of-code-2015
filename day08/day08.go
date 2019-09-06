@@ -50,13 +50,15 @@ func (s *SolverDay8) SolvePart2() string {
 
 func CompileString(s string) (string, error) {
 	if !strings.Contains(s, "\\") {
-		return strings.Replace(s, "\"", "", -1), nil
+		s = strings.Replace(s, "\"", "", -1)
+		return s, nil
 	}
 
 	s = s[1 : len(s)-1]
 	s = strings.ReplaceAll(s, "\\\"", "\"")
+	s = strings.ReplaceAll(s, "\\\\", "\\")
 
-	r := regexp.MustCompile(`\\x[0-9]{2}`)
+	r := regexp.MustCompile(`\\x[0-9A-f]{2}`)
 	ms := r.FindAllString(s, -1)
 	for _, m := range ms {
 		hs, err := hex.DecodeString(m[2:])

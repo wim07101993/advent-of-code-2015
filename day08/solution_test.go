@@ -16,7 +16,7 @@ func TestPart1(t *testing.T) {
 	})
 
 	a := s.SolvePart1()
-	if a != "" {
+	if a != "1371" {
 		t.Errorf("Wrong answer, try again (%s)", a)
 	}
 }
