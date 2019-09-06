@@ -1,5 +1,10 @@
 package day08
 
+import (
+	"fmt"
+	"strings"
+)
+
 type SolverDay8 struct {
 	inputProvider func() []string
 	input         []string
@@ -27,4 +32,14 @@ func (s *SolverDay8) SolvePart2() string {
 	}
 
 	return ""
+}
+
+func CompileString(s string) string {
+	if !strings.Contains(s, "\\") {
+		return strings.Replace(s, "\"", "", -1)
+	}
+
+	s = s[1 : len(s)-1]
+	fmt.Println(s)
+	return s
 }
