@@ -3,6 +3,7 @@ package day07
 import (
 	"errors"
 	"fmt"
+	"regexp"
 	"strconv"
 	"strings"
 )
@@ -61,7 +62,16 @@ func (s *SolverDay7) SolvePart2() string {
 		s.input = s.inputProvider()
 	}
 
-	return ""
+	a := s.SolvePart1()
+
+	r := regexp.MustCompile(` -> b$`)
+	for i := range s.input {
+		if r.MatchString(s.input[i]) {
+			s.input[i] = a + " -> b"
+		}
+	}
+
+	return s.SolvePart1()
 }
 
 func ParseInstruction(i string) *Instruction {
