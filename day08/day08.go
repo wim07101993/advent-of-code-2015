@@ -79,8 +79,17 @@ func CompileString(s string) (string, error) {
 }
 
 func DecompileString(s string) string {
-	s = strings.ReplaceAll(s, "\\", "\\\\")
-	s = strings.ReplaceAll(s, "\"", "\\\"")
+	bs := []byte(s)
+	for i := 0; i < len(bs); i++ {
+		switch bs[i] {
+		case '\\', '"':
+			bsPt1 := string(bs[:i])
+			bsPt2 := string(bs[i:])
+			s = fmt.Sprint(bsPt1, "\\", bsPt2)
+			bs = []byte(s)
+			i++
+		}
+	}
 
-	return s
+	return fmt.Sprint("\"", string(bs), "\"")
 }

@@ -1,6 +1,9 @@
 package day08
 
-import "testing"
+import (
+	"fmt"
+	"testing"
+)
 
 func TestCompileString(t *testing.T) {
 	if s, _ := CompileString("\"\""); s != "" {
@@ -18,16 +21,27 @@ func TestCompileString(t *testing.T) {
 }
 
 func TestDeCompileString(t *testing.T) {
-	if s := DecompileString("\"\""); s != "\\\"\\\"" {
+	s := DecompileString("\"\"")
+	fmt.Println(s)
+	if s != "\\\"\\\"" {
 		t.Errorf("\"\"\"\" compiles to \\\"\\\", not \"%s\"", s)
 	}
-	if s := DecompileString("\"abc\""); s != "\\\"abc\\\"" {
+
+	s = DecompileString("\"abc\"")
+	fmt.Println(s)
+	if s != "\\\"abc\\\"" {
 		t.Errorf("\"\"abc\"\" compiles to \\\"abc\\\", not \"%s\"", s)
 	}
-	if s := DecompileString("\"aaa\\\"aaa\""); s != "\\\"aaa\\\\\\\"aaa\\\"" {
+
+	s = DecompileString("\"aaa\\\"aaa\"")
+	fmt.Println(s)
+	if s != "\\\"aaa\\\\\\\"aaa\\\"" {
 		t.Errorf("\"\"aaa\"aaa\"\" compiles to \\\"aaa\\\\\\\"aaa\\\", not \"%s\"", s)
 	}
-	if s := DecompileString("\"\\x27\""); s != "\\\"\\\\x27\\\"" {
+
+	s = DecompileString("\"\\x27\"")
+	fmt.Println(s)
+	if s != "\\\"\\\\x27\\\"" {
 		t.Errorf("\"\"\\x27\"\" compiles to \\\"\\\\x27\\\", not \"%s\"", s)
 	}
 }
