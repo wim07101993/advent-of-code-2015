@@ -16,3 +16,18 @@ func TestCompileString(t *testing.T) {
 		t.Errorf("\"\"\\x27\"\" compiles to \"'\", not \"%s\"", s)
 	}
 }
+
+func TestDeCompileString(t *testing.T) {
+	if s := DecompileString("\"\""); s != "\\\"\\\"" {
+		t.Errorf("\"\"\"\" compiles to \\\"\\\", not \"%s\"", s)
+	}
+	if s := DecompileString("\"abc\""); s != "\\\"abc\\\"" {
+		t.Errorf("\"\"abc\"\" compiles to \\\"abc\\\", not \"%s\"", s)
+	}
+	if s := DecompileString("\"aaa\\\"aaa\""); s != "\\\"aaa\\\\\\\"aaa\\\"" {
+		t.Errorf("\"\"aaa\"aaa\"\" compiles to \\\"aaa\\\\\\\"aaa\\\", not \"%s\"", s)
+	}
+	if s := DecompileString("\"\\x27\""); s != "\\\"\\\\x27\\\"" {
+		t.Errorf("\"\"\\x27\"\" compiles to \\\"\\\\x27\\\", not \"%s\"", s)
+	}
+}

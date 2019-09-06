@@ -1,5 +1,7 @@
 # Day 8: Matchsticks
 
+## Part 1
+
 Space on the sleigh is limited this year, and so Santa will be bringing his list
 as a digital copy. He needs to know how much space it will take up when stored.
 
@@ -11,7 +13,7 @@ However, it is important to realize the difference between the number of
 characters in the code representation of the string literal and the number of
 characters in the in-memory string itself.
 
-## For example
+### For example
 
 * `""` is 2 characters of code (the two double quotes), but the string contains
   zero characters.
@@ -35,3 +37,23 @@ values of the strings in total for the entire file?
 For example, given the four strings above, the total number of characters of
 string code `(2 + 5 + 10 + 6 = 23)` minus the total number of characters in
 memory for string values `(0 + 3 + 7 + 1 = 11)` is `23 - 11 = 12`.
+
+## Part 2
+
+Now, let's go the other way. In addition to finding the number of characters of
+code, you should now encode each code representation as a new string and find
+the number of characters of the new encoded representation, including the
+surrounding double quotes.
+
+### For example
+
+* `""` encodes to `"\"\""`, an increase from 2 characters to 6.
+* `"abc"` encodes to `"\"abc\""`, an increase from 5 characters to 9.
+* `"aaa\"aaa"` encodes to `"\"aaa\\\"aaa\""`, an increase from 10 characters to 16.
+* `"\x27"` encodes to `"\"\\x27\""`, an increase from 6 characters to 11.
+
+Your task is to find the total number of characters to represent the newly
+encoded strings minus the number of characters of code in each original string
+literal. For example, for the strings above, the total encoded length
+`(6 + 9 + 16 + 11 = 42)` minus the characters in the original code representation
+(`23`, just like in the first part of this puzzle) is `42 - 23 = 19`.

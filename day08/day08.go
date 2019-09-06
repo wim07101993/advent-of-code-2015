@@ -45,7 +45,14 @@ func (s *SolverDay8) SolvePart2() string {
 		s.input = s.inputProvider()
 	}
 
-	return ""
+	total := 0
+	totalDecompiled := 0
+	for _, str := range s.input {
+		total += len(str)
+		c := DecompileString(str)
+		totalDecompiled += len(c)
+	}
+	return strconv.Itoa(totalDecompiled - total)
 }
 
 func CompileString(s string) (string, error) {
@@ -69,4 +76,11 @@ func CompileString(s string) (string, error) {
 	}
 
 	return s, nil
+}
+
+func DecompileString(s string) string {
+	s = strings.ReplaceAll(s, "\\", "\\\\")
+	s = strings.ReplaceAll(s, "\"", "\\\"")
+
+	return s
 }
