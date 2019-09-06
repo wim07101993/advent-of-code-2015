@@ -221,7 +221,7 @@ func main() {
 	// 	solve(s, i+1)
 	// }
 
-	solve(Solvers[4], 5)
+	solve(Solvers[6], 7)
 }
 
 func solve(s utils.Solver, day int) {
