@@ -1,7 +1,10 @@
 package day08
 
 import (
+	"encoding/hex"
 	"fmt"
+	"regexp"
+	"strconv"
 	"strings"
 )
 
@@ -23,7 +26,18 @@ func (s *SolverDay8) SolvePart1() string {
 		s.input = s.inputProvider()
 	}
 
-	return ""
+	total := 0
+	totalCompiled := 0
+	for _, str := range s.input {
+		total += len(str)
+		c, err := CompileString(str)
+		if err != nil {
+			fmt.Println(err)
+		} else {
+			totalCompiled += len(c)
+		}
+	}
+	return strconv.Itoa(total - totalCompiled)
 }
 
 func (s *SolverDay8) SolvePart2() string {
@@ -34,12 +48,23 @@ func (s *SolverDay8) SolvePart2() string {
 	return ""
 }
 
-func CompileString(s string) string {
+func CompileString(s string) (string, error) {
 	if !strings.Contains(s, "\\") {
-		return strings.Replace(s, "\"", "", -1)
+		return strings.Replace(s, "\"", "", -1), nil
 	}
 
 	s = s[1 : len(s)-1]
-	fmt.Println(s)
-	return s
+	s = strings.ReplaceAll(s, "\\\"", "\"")
+
+	r := regexp.MustCompile(`\\x[0-9]{2}`)
+	ms := r.FindAllString(s, -1)
+	for _, m := range ms {
+		hs, err := hex.DecodeString(m[2:])
+		if err != nil {
+			return "", err
+		}
+		s = strings.Replace(s, m, string(hs), -1)
+	}
+
+	return s, nil
 }
