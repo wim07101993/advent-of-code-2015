@@ -1,21 +1,24 @@
 package day10
 
-import "strconv"
+import (
+	"strconv"
+)
 
 type SolverDay10 struct {
-	input     string
+	input     []byte
 	solution1 int
 	solution2 int
 }
 
-func New(inputProvider func() string) *SolverDay10 {
+func New(inputProvider func() []byte) *SolverDay10 {
 	return &SolverDay10{
 		input: inputProvider(),
 	}
 }
 
 func (s *SolverDay10) SolvePart1() string {
-	return ""
+	bs := Sequence(s.input, 40)
+	return strconv.Itoa(len(bs))
 }
 
 func (s *SolverDay10) SolvePart2() string {
