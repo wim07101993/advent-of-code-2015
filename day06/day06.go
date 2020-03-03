@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"image"
 	"image/color"
+	"image/png"
+	"os"
 	"regexp"
 	"strconv"
 )
@@ -65,13 +67,13 @@ func (s *SolverDay6) SolvePart1() string {
 func (s *SolverDay6) SolvePart2() string {
 	s.EnsureInstructions()
 	g := NewGrid(1000, 1000)
-	// n := 0
+	n := 0
 
 	for _, i := range s.instructions {
 		g.Execute2(i)
-		// f, _ := os.Create("C:/Users/WVA1809/go/src/github.com/wim07101993/advent-of-code-2015/images/" + strconv.Itoa(n) + fmt.Sprint(i) + ".png")
-		// png.Encode(f, g.ToImage())
-		// n++
+		f, _ := os.Create("C:/Users/WVA1809/go/src/github.com/wim07101993/advent-of-code-2015/images/" + strconv.Itoa(n) + fmt.Sprint(i) + ".png")
+		png.Encode(f, g.ToImage())
+		n++
 	}
 	return strconv.Itoa(g.GetOn())
 }
@@ -100,6 +102,35 @@ func (g Grid) Execute(i Instruction) {
 	}
 }
 
+func (g Grid) Iterate(from, to Coordinate, action func(value int) int) {
+	for x := from.X; x <= to.X; x++ {
+		for y := from.Y; y <= to.Y; y++ {
+			g[x][y] = action(g[x][y])
+		}
+	}
+}
+
+func (g Grid) TurnOn(from, to Coordinate) {
+	g.Iterate(from, to, func(value int) int {
+		return value + 1
+	})
+}
+
+func (g Grid) TurnOff(from, to Coordinate) {
+	g.Iterate(from, to, func(value int) int {
+		return 0
+	})
+}
+
+func (g Grid) Toggle(from, to Coordinate) {
+	g.Iterate(from, to, func(value int) int {
+		if value > 0 {
+			return 0
+		}
+		return 1
+	})
+}
+
 func (g Grid) Execute2(i Instruction) {
 	switch i.Do {
 	case Off:
@@ -111,51 +142,20 @@ func (g Grid) Execute2(i Instruction) {
 	}
 }
 
-func (g Grid) TurnOn(from, to Coordinate) {
-	for x := from.X; x <= to.X; x++ {
-		for y := from.Y; y <= to.Y; y++ {
-			g[x][y]++
-		}
-	}
-}
-
-func (g Grid) TurnOff(from, to Coordinate) {
-	for x := from.X; x <= to.X; x++ {
-		for y := from.Y; y <= to.Y; y++ {
-			g[x][y] = 0
-		}
-	}
-}
-
 func (g Grid) TurnOff2(from, to Coordinate) {
-	for x := from.X; x <= to.X; x++ {
-		for y := from.Y; y <= to.Y; y++ {
-			g[x][y]--
-			if g[x][y] < 0 {
-				g[x][y] = 0
-			}
+	g.Iterate(from, to, func(value int) int {
+		value--
+		if value < 0 {
+			return 0
 		}
-	}
-}
-
-func (g Grid) Toggle(from, to Coordinate) {
-	for x := from.X; x <= to.X; x++ {
-		for y := from.Y; y <= to.Y; y++ {
-			if g[x][y] > 0 {
-				g[x][y] = 0
-			} else {
-				g[x][y]++
-			}
-		}
-	}
+		return value
+	})
 }
 
 func (g Grid) Toggle2(from, to Coordinate) {
-	for x := from.X; x <= to.X; x++ {
-		for y := from.Y; y <= to.Y; y++ {
-			g[x][y] += 2
-		}
-	}
+	g.Iterate(from, to, func(value int) int {
+		return value + 2
+	})
 }
 
 func (g Grid) GetOn() int {
