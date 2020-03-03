@@ -1,5 +1,7 @@
 # Day 11: Corporate Policy
 
+## Part 1
+
 Santa's previous password expired, and he needs help choosing a new one.
 
 To help him remember his new password after the old one expires, Santa has
@@ -25,16 +27,16 @@ mistaken for other characters and are therefore confusing.
 Passwords must contain at least two different, non-overlapping pairs of letters,
 like `aa`, `bb`, or `zz`.
 
-## For example
+### For example
 
-* `hijklmmn` meets the first requirement (because it contains the straight
+- `hijklmmn` meets the first requirement (because it contains the straight
   `hij`) but fails the second requirement requirement (because it contains `i`
   and `l`).
-* `abbceffg` meets the third requirement (because it repeats `bb` and `ff`) but
+- `abbceffg` meets the third requirement (because it repeats `bb` and `ff`) but
   fails the first requirement.
-* `abbcegjk` fails the third requirement, because it only has one double letter (`bb`).
-* The next password after `abcdefgh` is `abcdffaa`.
-* The next password after `ghijklmn` is `ghjaabcc`, because you eventually skip
+- `abbcegjk` fails the third requirement, because it only has one double letter (`bb`).
+- The next password after `abcdefgh` is `abcdffaa`.
+- The next password after `ghijklmn` is `ghjaabcc`, because you eventually skip
   all the passwords that start with `ghi...`, since `i` is not allowed.
 
 Given Santa's current password (your puzzle input), what should his next
