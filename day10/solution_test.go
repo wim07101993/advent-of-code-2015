@@ -7,8 +7,8 @@ import (
 )
 
 func TestPart1(t *testing.T) {
-	s := New(func() string {
-		ls, err := utils.ReadFileAsString("./input")
+	s := New(func() []byte {
+		ls, err := utils.ReadFileAsBytes("./input")
 		if err != nil {
 			t.Error(err)
 		}
@@ -22,8 +22,8 @@ func TestPart1(t *testing.T) {
 }
 
 func TestPart2(t *testing.T) {
-	s := New(func() string {
-		ls, err := utils.ReadFileAsString("./input")
+	s := New(func() []byte {
+		ls, err := utils.ReadFileAsBytes("./input")
 		if err != nil {
 			t.Error(err)
 		}
