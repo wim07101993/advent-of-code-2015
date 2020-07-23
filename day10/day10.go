@@ -22,7 +22,8 @@ func (s *SolverDay10) SolvePart1() string {
 }
 
 func (s *SolverDay10) SolvePart2() string {
-	return ""
+	bs := Sequence(s.input, 50)
+	return strconv.Itoa(len(bs))
 }
 
 func Sequence(bs []byte, count int) []byte {
