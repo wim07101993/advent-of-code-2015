@@ -4,7 +4,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/wim07101993/advent-of-code-2015/utils"
+	"advent-of-code-2015/utils"
 )
 
 type SolverDay2 struct {
