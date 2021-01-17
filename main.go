@@ -100,8 +100,8 @@ func init() {
 				return bs
 			}
 		}),
-		day10.New(func() string {
-			if bs, err := utils.ReadFileAsString("./day10/input"); err != nil {
+		day10.New(func() []byte {
+			if bs, err := utils.ReadFileAsBytes("./day10/input"); err != nil {
 				panic(err)
 			} else {
 				return bs
@@ -221,7 +221,7 @@ func main() {
 	// 	solve(s, i+1)
 	// }
 
-	solve(Solvers[7], 8)
+	solve(Solvers[8], 9)
 }
 
 func solve(s utils.Solver, day int) {

@@ -1,5 +1,10 @@
 package day09
 
+import (
+	"log"
+	"strconv"
+)
+
 type SolverDay9 struct {
 	inputProvider func() []string
 	input         []string
@@ -18,7 +23,11 @@ func (s *SolverDay9) SolvePart1() string {
 		s.input = s.inputProvider()
 	}
 
-	return ""
+	m := ParseMap(s.input)
+	d, h := m.ShortestDistance()
+
+	log.Println(h)
+	return strconv.Itoa(d)
 }
 
 func (s *SolverDay9) SolvePart2() string {
@@ -26,5 +35,9 @@ func (s *SolverDay9) SolvePart2() string {
 		s.input = s.inputProvider()
 	}
 
-	return ""
+	m := ParseMap(s.input)
+	d, h := m.LongestDistance()
+
+	log.Println(h)
+	return strconv.Itoa(d)
 }
