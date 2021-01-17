@@ -34,5 +34,10 @@ func (s *SolverDay9) SolvePart2() string {
 	if s.input == nil {
 		s.input = s.inputProvider()
 	}
-	return ""
+
+	m := ParseMap(s.input)
+	d, h := m.LongestDistance()
+
+	log.Println(h)
+	return strconv.Itoa(d)
 }

@@ -43,34 +43,68 @@ func ParseMap(ss []string) Map {
 }
 
 func (m Map) ShortestDistance() (int, History) {
-	distance := 0
+	minDistance := 0
 	var minPath History
 	for i := range m {
-		d, h := walk(History{}, 0, m[i])
-		if distance > d || distance == 0 {
-			distance = d
+		d, h := walkShortest(History{}, 0, m[i])
+		if minDistance > d || minDistance == 0 {
+			minDistance = d
 			minPath = h
 		}
 	}
-	return distance, minPath
+	return minDistance, minPath
 }
 
-func walk(history History, currentDistance int, point *Point) (int, History) {
-	minDistance := 0
+func (m Map) LongestDistance() (int, History) {
+	maxDistance := 0
+	var maxPath History
+	for i := range m {
+		d, h := walkLongest(History{}, 0, m[i])
+		if d > maxDistance {
+			maxDistance = d
+			maxPath = h
+		}
+	}
+	return maxDistance, maxPath
+}
+
+func walkShortest(history History, currentDistance int, point *Point) (int, History) {
 	history = append(history, point)
+	minDistance := 0
 	minPath := history
 	for np, d := range point.Connections {
 		if history.Contains(np) {
 			continue
 		}
 
-		total, h := walk(history, currentDistance, np)
-		total += d
-		if minDistance > total || minDistance == 0 {
-			minDistance = total
+		distance, h := walkShortest(history, currentDistance, np)
+		distance += d
+		if minDistance > distance || minDistance == 0 {
+			minDistance = distance
 			minPath = h
 		}
 	}
 
 	return minDistance, minPath
+}
+
+func walkLongest(history History, currentDistance int, point *Point) (int,
+	History) {
+	history = append(history, point)
+	maxDistance := 0
+	maxPath := history
+	for np, d := range point.Connections {
+		if history.Contains(np) {
+			continue
+		}
+
+		distance, h := walkLongest(history, currentDistance, np)
+		distance += d
+		if distance > maxDistance {
+			maxDistance = distance
+			maxPath = h
+		}
+	}
+
+	return maxDistance, maxPath
 }
