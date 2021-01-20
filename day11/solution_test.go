@@ -16,7 +16,7 @@ func TestPart1(t *testing.T) {
 	})
 
 	a := s.SolvePart1()
-	if a != "" {
+	if a != "hxbxxyzz" {
 		t.Errorf("Wrong answer, try again (%s)", a)
 	}
 }
@@ -31,7 +31,7 @@ func TestPart2(t *testing.T) {
 	})
 
 	a := s.SolvePart2()
-	if a != "" {
+	if a != "hxcaabcc" {
 		t.Errorf("Wrong answer, try again (%s)", a)
 	}
 }

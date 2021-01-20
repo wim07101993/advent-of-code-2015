@@ -19,5 +19,8 @@ func (s *SolverDay11) SolvePart1() string {
 }
 
 func (s *SolverDay11) SolvePart2() string {
-	return ""
+	p := NewPassword(s.input)
+	p.Next()
+	p.Next()
+	return p.String()
 }
