@@ -3,7 +3,7 @@ package day12
 import (
 	"testing"
 
-	"github.com/wim07101993/advent-of-code-2015/utils"
+	"advent-of-code-2015/utils"
 )
 
 func TestPart1(t *testing.T) {
@@ -16,7 +16,7 @@ func TestPart1(t *testing.T) {
 	})
 
 	a := s.SolvePart1()
-	if a != "" {
+	if a != "119433" {
 		t.Errorf("Wrong answer, try again (%s)", a)
 	}
 }

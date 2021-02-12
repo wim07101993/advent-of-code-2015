@@ -3,7 +3,7 @@ package day18
 import (
 	"testing"
 
-	"github.com/wim07101993/advent-of-code-2015/utils"
+	"advent-of-code-2015/utils"
 )
 
 func TestPart1(t *testing.T) {

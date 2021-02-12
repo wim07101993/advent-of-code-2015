@@ -1,34 +1,34 @@
 package main
 
 import (
+	"advent-of-code-2015/day01"
+	"advent-of-code-2015/day02"
+	"advent-of-code-2015/day03"
+	"advent-of-code-2015/day04"
+	"advent-of-code-2015/day05"
+	"advent-of-code-2015/day06"
+	"advent-of-code-2015/day07"
+	"advent-of-code-2015/day08"
+	"advent-of-code-2015/day09"
+	"advent-of-code-2015/day10"
+	"advent-of-code-2015/day11"
+	"advent-of-code-2015/day12"
+	"advent-of-code-2015/day13"
+	"advent-of-code-2015/day14"
+	"advent-of-code-2015/day15"
+	"advent-of-code-2015/day16"
+	"advent-of-code-2015/day17"
+	"advent-of-code-2015/day18"
+	"advent-of-code-2015/day19"
+	"advent-of-code-2015/day20"
+	"advent-of-code-2015/day21"
+	"advent-of-code-2015/day22"
+	"advent-of-code-2015/day23"
+	"advent-of-code-2015/day24"
+	"advent-of-code-2015/day25"
+	"advent-of-code-2015/utils"
 	"fmt"
 
-	"github.com/wim07101993/advent-of-code-2015/day01"
-	"github.com/wim07101993/advent-of-code-2015/day02"
-	"github.com/wim07101993/advent-of-code-2015/day03"
-	"github.com/wim07101993/advent-of-code-2015/day04"
-	"github.com/wim07101993/advent-of-code-2015/day05"
-	"github.com/wim07101993/advent-of-code-2015/day06"
-	"github.com/wim07101993/advent-of-code-2015/day07"
-	"github.com/wim07101993/advent-of-code-2015/day08"
-	"github.com/wim07101993/advent-of-code-2015/day09"
-	"github.com/wim07101993/advent-of-code-2015/day10"
-	"github.com/wim07101993/advent-of-code-2015/day11"
-	"github.com/wim07101993/advent-of-code-2015/day12"
-	"github.com/wim07101993/advent-of-code-2015/day13"
-	"github.com/wim07101993/advent-of-code-2015/day14"
-	"github.com/wim07101993/advent-of-code-2015/day15"
-	"github.com/wim07101993/advent-of-code-2015/day16"
-	"github.com/wim07101993/advent-of-code-2015/day17"
-	"github.com/wim07101993/advent-of-code-2015/day18"
-	"github.com/wim07101993/advent-of-code-2015/day19"
-	"github.com/wim07101993/advent-of-code-2015/day20"
-	"github.com/wim07101993/advent-of-code-2015/day21"
-	"github.com/wim07101993/advent-of-code-2015/day22"
-	"github.com/wim07101993/advent-of-code-2015/day23"
-	"github.com/wim07101993/advent-of-code-2015/day24"
-	"github.com/wim07101993/advent-of-code-2015/day25"
-	"github.com/wim07101993/advent-of-code-2015/utils"
 )
 
 var (
@@ -221,7 +221,7 @@ func main() {
 	// 	solve(s, i+1)
 	// }
 
-	solve(Solvers[8], 9)
+	solve(Solvers[11], 12)
 }
 
 func solve(s utils.Solver, day int) {
